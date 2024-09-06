@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 public class Task {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +29,8 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, LocalDate deadline, String category) {
+    public Task(Long id, String title, String description, LocalDate deadline, String category) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.status = TaskStatus.PENDING;
@@ -39,6 +40,9 @@ public class Task {
 
     // Getters and Setters
     public Long getId() { return id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
