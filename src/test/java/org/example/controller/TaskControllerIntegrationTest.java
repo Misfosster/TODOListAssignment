@@ -35,32 +35,37 @@ public class TaskControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
+        // Set up ObjectMapper for JSON conversion, especially for LocalDate
         objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());  // Register JavaTimeModule for LocalDate
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
     public void testGetTasks_ReturnsListOfTasks() throws Exception {
+        // Arrange: Create and save tasks in the repository
         Task task1 = new Task(null, "Title 1", "Description 1", LocalDate.now(), "Category 1");
         Task task2 = new Task(null, "Title 2", "Description 2", LocalDate.now(), "Category 2");
         taskRepository.saveAll(List.of(task1, task2));
 
+        // Act & Assert: Perform GET request and verify the response
         mockMvc.perform(get("/tasks"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].title", is("Title 1")))
-            .andExpect(jsonPath("$[1].title", is("Title 2")));
+            .andExpect(status().isOk())  // Expect HTTP 200 status
+            .andExpect(jsonPath("$", hasSize(2)))  // Expect two tasks in the response
+            .andExpect(jsonPath("$[0].title", is("Title 1")))  // Check first task's title
+            .andExpect(jsonPath("$[1].title", is("Title 2")));  // Check second task's title
     }
 
     @Test
     public void testAddTask_ValidTask_ReturnsCreatedTask() throws Exception {
+        // Arrange: Create a task
         Task task = new Task(null, "Title", "Description", LocalDate.now(), "Category");
 
+        // Act & Assert: Perform POST request and verify the response
         mockMvc.perform(post("/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(task)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.title", is("Title")))
-            .andExpect(jsonPath("$.description", is("Description")));
+            .andExpect(status().isOk())  // Expect HTTP 200 status
+            .andExpect(jsonPath("$.title", is("Title")))  // Check the task's title
+            .andExpect(jsonPath("$.description", is("Description")));  // Check the task's description
     }
 }
