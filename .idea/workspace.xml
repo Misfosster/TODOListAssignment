@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b9f7697-9017-4f82-9ad1-73bda3bc6496" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/service/TaskServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/service/TaskServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/service/TaskServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,8 +52,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.TaskControllerIntegrationTest.executor": "Run",
+    "JUnit.TaskControllerIntegrationTest.testAddTask_ValidTask_ReturnsCreatedTask.executor": "Run",
     "JUnit.TaskServiceTest.executor": "Run",
     "JUnit.TaskServiceTest.testMarkAsCompleted.executor": "Debug",
+    "JUnit.example in TODOListAssignment.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -82,7 +84,38 @@
       <recent name="org.example.service" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TaskServiceTest">
+  <component name="RunManager" selected="JUnit.example in TODOListAssignment">
+    <configuration name="TaskControllerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TODOListAssignment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.example.controller.TaskControllerIntegrationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskControllerIntegrationTest.testAddTask_ValidTask_ReturnsCreatedTask" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TODOListAssignment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.example.controller.TaskControllerIntegrationTest" />
+      <option name="METHOD_NAME" value="testAddTask_ValidTask_ReturnsCreatedTask" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TaskServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TODOListAssignment" />
       <extension name="coverage">
@@ -116,30 +149,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TodoListAssignmentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <configuration name="example in TODOListAssignment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TODOListAssignment" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.TodoListAssignmentApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/org/example" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.TaskControllerIntegrationTest" />
+      <item itemvalue="JUnit.TaskControllerIntegrationTest.testAddTask_ValidTask_ReturnsCreatedTask" />
+      <item itemvalue="JUnit.example in TODOListAssignment" />
       <item itemvalue="JUnit.TaskServiceTest" />
       <item itemvalue="JUnit.TaskServiceTest.testMarkAsCompleted" />
-      <item itemvalue="Spring Boot.TodoListAssignmentApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.example in TODOListAssignment" />
+        <item itemvalue="JUnit.TaskControllerIntegrationTest.testAddTask_ValidTask_ReturnsCreatedTask" />
+        <item itemvalue="JUnit.TaskControllerIntegrationTest" />
         <item itemvalue="JUnit.TaskServiceTest" />
         <item itemvalue="JUnit.TaskServiceTest.testMarkAsCompleted" />
-        <item itemvalue="Spring Boot.TodoListAssignmentApplication" />
       </list>
     </recent_temporary>
   </component>

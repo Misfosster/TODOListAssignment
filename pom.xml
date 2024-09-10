@@ -63,6 +63,13 @@
             </exclusions>
         </dependency>
 
+        <!--Localdate support for jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+
         <!-- Mockito (for mocking in unit tests) -->
         <dependency>
             <groupId>org.mockito</groupId>
