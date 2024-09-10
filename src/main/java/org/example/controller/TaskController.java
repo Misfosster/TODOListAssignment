@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost") // Adjust the port if your HTML is served from a different one
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
