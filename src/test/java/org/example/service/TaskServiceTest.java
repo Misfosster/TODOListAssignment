@@ -1,20 +1,19 @@
 package org.example.service;
 
 import org.example.model.Task;
-import org.example.model.Task.TaskStatus;
 import org.example.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -44,6 +43,34 @@ public class TaskServiceTest {
         // Assert: Verify the saved task's title and that save was called once
         assertEquals(task.getTitle(), savedTask.getTitle());
         verify(taskRepository, times(1)).save(task);
+    }
+
+    @Test
+    public void testAddTask_ValidationFails_EmptyTitle() {
+        // Arrange: Create a task with an empty title
+        Task task = new Task(null, "", "Valid description", LocalDate.now(), "Category");
+
+        // Act & Assert: Expect a ResponseStatusException when validation fails
+        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+            taskService.addTask(task);
+        });
+
+        assertEquals("400 BAD_REQUEST \"Task title must not be empty\"", exception.getMessage());
+        verify(taskRepository, never()).save(any(Task.class));
+    }
+
+    @Test
+    public void testAddTask_ValidationFails_ShortDescription() {
+        // Arrange: Create a task with a description that's too short
+        Task task = new Task(null, "Valid Title", "123", LocalDate.now(), "Category");
+
+        // Act & Assert: Expect a ResponseStatusException when validation fails
+        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+            taskService.addTask(task);
+        });
+
+        assertEquals("400 BAD_REQUEST \"Task description must be at least 5 characters long\"", exception.getMessage());
+        verify(taskRepository, never()).save(any(Task.class));
     }
 
     @Test
@@ -84,6 +111,24 @@ public class TaskServiceTest {
     }
 
     @Test
+    public void testUpdateTask_ExistingTask_ValidData() {
+        // Arrange: Create an existing task and the updated task details
+        Task existingTask = new Task(1L, "Old Title", "Old Description", LocalDate.now(), "Category");
+        Task updatedTaskDetails = new Task(1L, "New Title", "New Description", LocalDate.now(), "Category");
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(existingTask));
+        when(taskRepository.save(any(Task.class))).thenReturn(existingTask);
+
+        // Act: Update the task
+        Task updatedTask = taskService.updateTask(1L, updatedTaskDetails);
+
+        // Assert: Verify that the task's title and description were updated and save was called
+        assertEquals("New Title", updatedTask.getTitle());
+        assertEquals("New Description", updatedTask.getDescription());
+        verify(taskRepository, times(1)).save(existingTask);
+    }
+
+    @Test
     public void testMarkAsCompleted_ExistingTaskId_MarksTaskAsCompleted() {
         // Arrange: Create a task, set it to PENDING, and set up the mock to return it
         Task existingTask = new Task(1L, "Title", "Description", LocalDate.now(), "Category");
@@ -98,5 +143,19 @@ public class TaskServiceTest {
         assertEquals(Task.TaskStatus.COMPLETED, result.getStatus());
         verify(taskRepository, times(1)).findById(1L);
         verify(taskRepository, times(1)).save(existingTask);
+    }
+
+    @Test
+    public void testMarkAsCompleted_TaskNotFound() {
+        // Arrange: Set up the mock to return empty when a task ID is not found
+        when(taskRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert: Expect a RuntimeException when marking a non-existent task as completed
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            taskService.markAsCompleted(1L);
+        });
+
+        // Verify the exception message
+        assertEquals("Task not found", exception.getMessage());
     }
 }
