@@ -32,6 +32,51 @@ public class TaskServiceTest {
     }
 
     @Test
+    public void testAddTask_ValidationFails_TitleTooShort() {
+        // Arrange: Create a task with a title that's too short
+        Task task = new Task(null, "A", "Valid description", LocalDate.now(), "Category");
+
+        // Act & Assert: Expect a ResponseStatusException when validation fails
+        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+            taskService.addTask(task);
+        });
+
+        // Assert that the correct exception message is thrown
+        assertEquals("400 BAD_REQUEST \"Task title must be at least 3 characters long\"", exception.getMessage());
+        verify(taskRepository, never()).save(any(Task.class));
+    }
+
+    @Test
+    public void testAddTask_ValidationFails_TitleTooLong() {
+        // Arrange: Create a task with a title that's too long (over 50 characters)
+        String longTitle = "A".repeat(51); // Title with 51 characters
+        Task task = new Task(null, longTitle, "Valid description", LocalDate.now(), "Category");
+
+        // Act & Assert: Expect a ResponseStatusException when validation fails
+        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+            taskService.addTask(task);
+        });
+
+        // Assert that the correct exception message is thrown
+        assertEquals("400 BAD_REQUEST \"Task title must be no more than 50 characters long\"", exception.getMessage());
+        verify(taskRepository, never()).save(any(Task.class));
+    }
+
+    @Test
+    public void testAddTask_ValidTitleLength() {
+        // Arrange: Create a task with a valid title length
+        Task task = new Task(null, "Valid Title", "Valid description", LocalDate.now(), "Category");
+        when(taskRepository.save(any(Task.class))).thenReturn(task);
+
+        // Act: Save the task using the service
+        Task savedTask = taskService.addTask(task);
+
+        // Assert: Verify the saved task's title and that save was called once
+        assertEquals("Valid Title", savedTask.getTitle());
+        verify(taskRepository, times(1)).save(task);
+    }
+
+    @Test
     public void testAddTask() {
         // Arrange: Create a task and set up the mock to return it when saved
         Task task = new Task(null, "Title", "Description", LocalDate.now(), "Category");

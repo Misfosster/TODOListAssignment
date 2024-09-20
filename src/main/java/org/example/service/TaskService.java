@@ -16,7 +16,9 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    private static final int MIN_DESCRIPTION_LENGTH = 5; // Set your desired minimum description length
+    private static final int MIN_DESCRIPTION_LENGTH = 5;
+    private static final int MIN_TITLE_LENGTH = 3; // Minimum title length
+    private static final int MAX_TITLE_LENGTH = 50; // Maximum title length
 
     public Task addTask(Task task) {
         validateTask(task);
@@ -63,6 +65,14 @@ public class TaskService {
     private void validateTask(Task task) {
         if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task title must not be empty");
+        }
+
+        if (task.getTitle().length() < MIN_TITLE_LENGTH) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task title must be at least " + MIN_TITLE_LENGTH + " characters long");
+        }
+
+        if (task.getTitle().length() > MAX_TITLE_LENGTH) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task title must be no more than " + MAX_TITLE_LENGTH + " characters long");
         }
 
         if (task.getDescription() == null || task.getDescription().length() < MIN_DESCRIPTION_LENGTH) {
